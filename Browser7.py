@@ -8,7 +8,7 @@ from PyQt5.QtCore import QUrl, Qt
 from PyQt5.QtGui import QPixmap
 
 # Bing API Key
-BING_API_KEY = "441d4a502da145ce812b7bd6864d444a" 
+BING_API_KEY = "your bing api here " 
 
 class BrowserWindow(QMainWindow):
     def __init__(self):
@@ -16,18 +16,12 @@ class BrowserWindow(QMainWindow):
 
         self.setWindowTitle("Pedoفيل")
         self.resize(1024, 768)
-
-        # Tab Widget for managing browser tabs
         self.tabs = QTabWidget(self)
         self.tabs.setTabsClosable(True)
         self.tabs.tabCloseRequested.connect(self.close_tab)
         self.tabs.currentChanged.connect(self.toggle_toolbar_search)
         self.setCentralWidget(self.tabs)
-
-        # Add navigation toolbar
         self.setup_toolbar()
-
-        # Add initial home page tab
         self.setup_home_page()
 
     def enable_tor_proxy(self, use_proxy=True):
@@ -45,7 +39,6 @@ class BrowserWindow(QMainWindow):
         self.toolbar = QToolBar("Navigation", self)
         self.addToolBar(self.toolbar)
 
-        # Button style
         button_style = """
             QPushButton {
                 background-color: #5e2b8e;
@@ -59,25 +52,21 @@ class BrowserWindow(QMainWindow):
             }
         """
 
-        # Back Button
         back_btn = QPushButton("<")
         back_btn.clicked.connect(self.go_back)
         back_btn.setStyleSheet(button_style)
         self.toolbar.addWidget(back_btn)
 
-        # Forward Button
         forward_btn = QPushButton(">")
         forward_btn.clicked.connect(self.go_forward)
         forward_btn.setStyleSheet(button_style)
         self.toolbar.addWidget(forward_btn)
 
-        # Refresh Button
         refresh_btn = QPushButton("⟳")
         refresh_btn.clicked.connect(self.refresh_page)
         refresh_btn.setStyleSheet(button_style)
         self.toolbar.addWidget(refresh_btn)
 
-        # Search Bar with style
         self.url_bar = QLineEdit()
         self.url_bar.setPlaceholderText("Enter URL or search query...")
         self.url_bar.returnPressed.connect(self.search_or_load)
@@ -90,7 +79,6 @@ class BrowserWindow(QMainWindow):
         """)
         self.toolbar.addWidget(self.url_bar)
 
-        # New Tab Button
         new_tab_btn = QPushButton("+")
         new_tab_btn.clicked.connect(self.add_new_tab)
         new_tab_btn.setStyleSheet(button_style)
@@ -101,14 +89,12 @@ class BrowserWindow(QMainWindow):
         home_widget = QWidget()
         layout = QVBoxLayout()
 
-        # Large Logo
         logo = QLabel()
         pixmap = QPixmap("C:/Users/mamou/OneDrive/Bureau/pedo3/logo.png").scaled(400, 400, Qt.KeepAspectRatio)
         logo.setPixmap(pixmap)
         logo.setAlignment(Qt.AlignCenter)
         layout.addWidget(logo)
 
-        # Background styling
         home_widget.setStyleSheet("""
             background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #1a1a1a, stop:1 #5e2b8e);
             color: white;
@@ -128,11 +114,9 @@ class BrowserWindow(QMainWindow):
         """Add a new tab with multimedia support."""
         browser = QWebEngineView()
 
-        # Enable multimedia support (audio/video)
         browser.settings().setAttribute(QWebEngineSettings.PluginsEnabled, True)
         browser.settings().setAttribute(QWebEngineSettings.PlaybackRequiresUserGesture, False)
 
-        # Load the initial URL or a blank page
         browser.setUrl(QUrl(url if url else "about:blank"))
         browser.urlChanged.connect(self.update_url_bar)
         browser.loadFinished.connect(self.on_load_finished)
@@ -196,8 +180,8 @@ class BrowserWindow(QMainWindow):
         if isinstance(current_tab, QWebEngineView):
             current_tab.setUrl(QUrl(url))
         else:
-            self.tabs.removeTab(0)  # Remove the home page
-            self.add_new_tab(url)  # Add a new tab with the URL
+            self.tabs.removeTab(0) 
+            self.add_new_tab(url)  
 
     def perform_search(self, query):
         """Perform a Bing search and display results."""
@@ -214,7 +198,7 @@ class BrowserWindow(QMainWindow):
                 html_content += f'<li><a href="{result["url"]}">{result["name"]}</a></li>'
             html_content += "</ul>"
 
-            # Display results in the current tab
+           
             current_tab = self.tabs.currentWidget()
             if isinstance(current_tab, QWebEngineView):
                 current_tab.setHtml(html_content)
